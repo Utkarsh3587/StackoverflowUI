@@ -10,285 +10,162 @@
 
 <body>
   <div class="container-fluid">
-      <div class="row" *ngIf="!obtainedData">
-          <div class="col-md-12 col-sm-12">
-              <h2 class="jumbotron text-center"> StackOverFlow Api Demo</h2>
-                 <div class="form-group col-md-5">
-                    <label for="tagged">Included Tags :</label>
-                    <div *ngFor="let tag of includedTagList" style="display:inline">
-                        <button class="btn btn-success m-1">
-                            {{tag}}
-                            <button type="button" class="close" aria-label="Close"
-                              (click)="removeTag(tag, includedTagList)">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </button>
-                    </div>
-                    <div>
-                      <input type="text" #in_tag>
-                      <button class="btn btn-primary m1" (click)="onAddTags(in_tag.value)"
-                      > Add</button>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-5">
-                    <label >Excluded Tags :</label>
-                    <div *ngFor="let tag of excludedTagList"
-                         style="display:inline">
-                        <button class="btn btn-success">
-                            {{tag}}
-                            <button type="button" class="close" aria-label="Close"
-                              (click)="removeTag(tag, excludedTagList)">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </button>
-                    </div>
-                    <div>
-                      <input type="text" #ex_tag>
-                      <button class="btn btn-primary" (click)="onAddExTags(ex_tag.value)"> Add</button>
-                    </div>
-                  </div>
-                  <div class="form-group col-md-10">
-                      <label for="intitle">Title Contains</label>
-                      <input
-                        type="text"
-                        id="intitle"
-                        [(ngModel)] = FormData.title
-                        class="form-control">
-                  </div>
-                  <div>
-                      <div class="form-group col-md-5" >
-                          <label for="fromdate">From Date</label>
-                          <input
-                            type="date"
-                            id="fromdate"
-                            [(ngModel)] = FormData.fromdate
-                            name="fromdate"
-                            required
-                            class="form-control">
-                      </div>
-                      <div class="form-group col-md-5">
-                          <label for="todate">End Date</label>
-                          <input
-                            type="date"
-                            id="todate"
-                            [(ngModel)] = FormData.todate
-                            name="todate"
-                            required
-                            class="form-control">
-                      </div>
-                  </div>
-                  <div class="col-md-12 my-auto ">
-                    <div class="form-group col-md-3">
-                      <label for="max">Max</label>
-                      <input
-                        type="number"
-                        id="max"
-                        [(ngModel)] = FormData.max
-                        name="max"
-                        class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="min">Min</label>
-                        <input
-                          type="number"
-                          id="min"
-                          [(ngModel)] = FormData.min
-                          name="min"
-                          class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="views">Views</label>
-                      <input
-                        type="number"
-                        id="views"
-                        [(ngModel)] = FormData.views
-                        name="views"
-                        class="form-control">
-                  </div>
-                    <div class="form-group col-md-3">
-                      <label for="user">User ID</label>
-                      <input
-                        type="number"
-                        id="user"
-                        [(ngModel)] = FormData.user
-                        name="user"
-                        class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="answer">Min Answers</label>
-                      <input
-                        type="number"
-                        id="answer"
-                        [(ngModel)] = FormData.answers
-                        name="answer"
-                        class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="q">Question Text Contains</label>
-                      <input
-                        type="text"
-                        id="q"
-                        [(ngModel)] = FormData.q
-                        name="q"
-                        class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="body">Question Body Contains</label>
-                      <input
-                        type="text"
-                        id="body"
-                        [(ngModel)] = FormData.body
-                        name="body"
-                        class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="url">URL - a url which must be contained in a post</label>
-                      <input
-                        type="text"
-                        id="url"
-                        [(ngModel)] = FormData.url
-                        name="url"
-                        class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="pagesize">Page Size</label>
-                        <input
-                          type="number"
-                          id="pagesize"
-                          [(ngModel)] = FormData.pagesize
-                          name="pagesize"
-                          class="form-control">
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="page">Page</label>
-                      <input
-                        type="number"
-                        id="page"
-                        [(ngModel)] = FormData.page
-                        name="page"
-                        class="form-control">
-                  </div>
-                  </div>
-                  <div class="col-md-12 my-auto ">
-                      <div class="form-group col-md-3">
-                          <label for="sort">Sorting</label>
-                          <select
-                            ngModel
-                            name="sort_odr"
-                            [(ngModel)] = FormData.sort
-                            id="sort_odr"
-                            class="form-control">
-                              <option
-                                *ngFor="let sort of sort"
-                                value="{{sort}}">{{sort}}
-                              </option>
-                          </select>
-                      </div>
-                      <div class="form-group col-md-3">
-                          <label for="select_odr">Order</label>
-                          <select
-                            name="select_odr"
-                            id="select_odr"
-                            [(ngModel)]=FormData.order
-                            class="form-control">
-                              <option
-                                *ngFor="let ord of order"
-                                value="{{ord}}">{{ord}}
-                              </option>
-                          </select>
-                      </div>
-                      <div class="form-group col-md-3">
-                        <label for="accepted_odr">Accepted Answer</label>
-                        <select
-                          ngModel
-                          name="accepted_odr"
-                          [(ngModel)] = FormData.accepted
-                          id="accepted_odr"
-                          class="form-control">
-                            <option
-                              *ngFor="let value of accepted"
-                              value="{{value}}">{{value}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="close_odr">Question Closed</label>
-                      <select
-                        ngModel
-                        name="close_odr"
-                        [(ngModel)] = FormData.closed
-                        id="close_odr"
-                        class="form-control">
-                          <option
-                            *ngFor="let value of closed"
-                            value="{{value}}">{{value}}
-                          </option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="migrate_odr">Questions Migrated</label>
-                      <select
-                        ngModel
-                        name="migrate_odr"
-                        [(ngModel)] = FormData.migrated
-                        id="migrate_odr"
-                        class="form-control">
-                          <option
-                            *ngFor="let value of migrated"
-                            value="{{value}}">{{value}}
-                          </option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="notice_odr">Questions with Notice</label>
-                      <select
-                        ngModel
-                        name="notice_odr"
-                        [(ngModel)] = FormData.notice
-                        id="notice_odr"
-                        class="form-control">
-                          <option
-                            *ngFor="let value of notice"
-                            value="{{value}}">{{value}}
-                          </option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="wiki_odr">Questions with Wiki</label>
-                      <select
-                        ngModel
-                        name="wiki_odr"
-                        [(ngModel)] = FormData.wiki
-                        id="wiki_odr"
-                        class="form-control">
-                          <option
-                            *ngFor="let value of wiki"
-                            value="{{value}}">{{value}}
-                          </option>
-                      </select>
-                    </div>
-                  </div>
-                <br>
-            <button
-              class="btn btn-primary mt-1"
-                (click)="submitFormData()"
-                type="submit">
-                  Submit
-                </button>
-
+    <div class="row" *ngIf="!obtainedData">
+      <div class="col-md-12 col-sm-12">
+        <h2 class="jumbotron text-center"> StackOverFlow Api Demo</h2>
+        <div class="form-group col-md-5">
+          <label for="tagged">Included Tags :</label>
+          <div *ngFor="let tag of includedTagList" style="display:inline">
+            <button class="btn btn-success m-1">
+              {{tag}}
+              <button type="button" class="close" aria-label="Close" (click)="removeTag(tag, includedTagList)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </button>
           </div>
+          <div>
+            <input type="text" #in_tag>
+            <button class="btn btn-primary m1" (click)="onAddTags(in_tag.value)"> Add</button>
+          </div>
+        </div>
+        <div class="form-group col-md-5">
+          <label>Excluded Tags :</label>
+          <div *ngFor="let tag of excludedTagList" style="display:inline">
+            <button class="btn btn-success">
+              {{tag}}
+              <button type="button" class="close" aria-label="Close" (click)="removeTag(tag, excludedTagList)">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </button>
+          </div>
+          <div>
+            <input type="text" #ex_tag>
+            <button class="btn btn-primary" (click)="onAddExTags(ex_tag.value)"> Add</button>
+          </div>
+        </div>
+        <div class="form-group col-md-10">
+          <label for="intitle">Title Contains</label>
+          <input type="text" id="intitle" [(ngModel)]=FormData.title class="form-control">
+        </div>
+        <div>
+          <div class="form-group col-md-5">
+            <label for="fromdate">From Date</label>
+            <input type="date" id="fromdate" [(ngModel)]=FormData.fromdate name="fromdate" required
+              class="form-control">
+          </div>
+          <div class="form-group col-md-5">
+            <label for="todate">End Date</label>
+            <input type="date" id="todate" [(ngModel)]=FormData.todate name="todate" required class="form-control">
+          </div>
+        </div>
+        <div class="col-md-12 my-auto ">
+          <div class="form-group col-md-3">
+            <label for="max">Max</label>
+            <input type="number" id="max" [(ngModel)]=FormData.max name="max" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="min">Min</label>
+            <input type="number" id="min" [(ngModel)]=FormData.min name="min" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="views">Views</label>
+            <input type="number" id="views" [(ngModel)]=FormData.views name="views" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="user">User ID</label>
+            <input type="number" id="user" [(ngModel)]=FormData.user name="user" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="answer">Min Answers</label>
+            <input type="number" id="answer" [(ngModel)]=FormData.answers name="answer" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="q">Question Text Contains</label>
+            <input type="text" id="q" [(ngModel)]=FormData.q name="q" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="body">Question Body Contains</label>
+            <input type="text" id="body" [(ngModel)]=FormData.body name="body" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="url">URL - a url which must be contained in a post</label>
+            <input type="text" id="url" [(ngModel)]=FormData.url name="url" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="pagesize">Page Size</label>
+            <input type="number" id="pagesize" [(ngModel)]=FormData.pagesize name="pagesize" class="form-control">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="page">Page</label>
+            <input type="number" id="page" [(ngModel)]=FormData.page name="page" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-12 my-auto ">
+          <div class="form-group col-md-3">
+            <label for="sort">Sorting</label>
+            <select ngModel name="sort_odr" [(ngModel)]=FormData.sort id="sort_odr" class="form-control">
+              <option *ngFor="let sort of sort" value="{{sort}}">{{sort}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="select_odr">Order</label>
+            <select name="select_odr" id="select_odr" [(ngModel)]=FormData.order class="form-control">
+              <option *ngFor="let ord of order" value="{{ord}}">{{ord}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="accepted_odr">Accepted Answer</label>
+            <select ngModel name="accepted_odr" [(ngModel)]=FormData.accepted id="accepted_odr" class="form-control">
+              <option *ngFor="let value of accepted" value="{{value}}">{{value}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="close_odr">Question Closed</label>
+            <select ngModel name="close_odr" [(ngModel)]=FormData.closed id="close_odr" class="form-control">
+              <option *ngFor="let value of closed" value="{{value}}">{{value}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="migrate_odr">Questions Migrated</label>
+            <select ngModel name="migrate_odr" [(ngModel)]=FormData.migrated id="migrate_odr" class="form-control">
+              <option *ngFor="let value of migrated" value="{{value}}">{{value}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="notice_odr">Questions with Notice</label>
+            <select ngModel name="notice_odr" [(ngModel)]=FormData.notice id="notice_odr" class="form-control">
+              <option *ngFor="let value of notice" value="{{value}}">{{value}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="wiki_odr">Questions with Wiki</label>
+            <select ngModel name="wiki_odr" [(ngModel)]=FormData.wiki id="wiki_odr" class="form-control">
+              <option *ngFor="let value of wiki" value="{{value}}">{{value}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-primary mt-1" (click)="submitFormData()" type="submit">
+          Submit
+        </button>
+
       </div>
-      <div class="row" *ngIf="obtainedData">
-          <div class="col-md-10 m-5">
-              <h3 class="jumbotron center_align"> Requested data </h3>
-      <button
-      class="btn btn-success m-1"
-      (click)="refreshPage()"
-      >Homepage</button>
-      <div>
-        <table class="table table-hover">
-          <br>
-          <tr >
+    </div>
+    <div class="row" *ngIf="obtainedData">
+      <div class="col-md-10 m-5">
+        <h3 class="jumbotron center_align"> Requested data </h3>
+        <button class="btn btn-success m-1" (click)="refreshPage()">Homepage</button>
+        <div>
+          <table class="table table-hover">
+            <br>
+            <tr>
               <th>Sr.no</th>
 
               <th>Title </th>
@@ -298,8 +175,8 @@
               <th>Owner Name</th>
               <th>Owner Link</th>
 
-          </tr>
-          <tr *ngFor="let data of obtainedData; index as i">
+            </tr>
+            <tr *ngFor="let data of obtainedData; index as i">
               <td>{{ i + 1 }}</td>
               <td>{{ data['title']}}</td>
               <td><a href="{{ data['link'] }}">Questing link</a></td>
@@ -307,12 +184,20 @@
               <td>{{ data['score']}}</td>
               <td>{{ data['owner']['display_name'] }}</td>
               <td><a href="{{ data['owner']['link'] }}">Link</a></td>
-          </tr>
-    </table>
-    <br>
-          </div>
+            </tr>
+          </table>
+          <br>
+        </div>
+
+        <div
+        class="search-results"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        (scrolled)="onScroll()">
+      </div>
       </div>
 
-  </div>
+    </div>
   </div>
 </body>

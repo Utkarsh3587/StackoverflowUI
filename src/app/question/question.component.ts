@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class QuestionComponent implements OnInit {
 
+  hasMorePages = false;
   sort = ['activity', 'votes', 'creation', 'relevance'];
   order = ['ascending', 'descending'];
   accepted = [null, 'True', 'False'];
@@ -77,14 +78,21 @@ export class QuestionComponent implements OnInit {
   submitFormData(): void {
     this.FormData.tagged = this.includedTagList;
     this.FormData.nottagged = this.excludedTagList;
-    console.log(this.includedTagList, this.excludedTagList);
     this.FormData.fromdate = this.datepipe.transform(this.FormData.fromdate, 'dd/MM/yyyy');
     this.FormData.todate = this.datepipe.transform(this.FormData.todate, 'dd/MM/yyyy');
+
     this.apiService.getQuestions(this.FormData).subscribe(message => {
       if (message.status !== 400) {
-        this.toastr.success(message.message, 'Data');
-        this.obtainedData = message.data;
-        console.log(this.obtainedData);
+
+        if (this.FormData.page === 1) {
+          this.obtainedData = message.data;
+        } else {
+          this.obtainedData = this.obtainedData.concat(message.data);
+        }
+
+        // this.toastr.success(message.message, 'Data');
+        // this.obtainedData = message.data;
+        this.hasMorePages = message.has_more;
       } else {
         this.toastr.error('Sorry something went wrong', 'Error!');
       }
@@ -93,6 +101,15 @@ export class QuestionComponent implements OnInit {
         this.toastr.error(error.error.message + ' Try after sometime', 'Too Many Requests!');
       }
     });
+  }
+
+  onScroll(): void {
+    if (this.hasMorePages) {
+      this.FormData.page += 1;
+      this.submitFormData();
+    } else {
+      this.toastr.warning('No more data', 'Try Different Query');
+    }
   }
 
 }
