@@ -16,6 +16,6 @@ export class ApiService {
     }
 
     getQuestions(searchParams: any): Observable<any>{
-      return this.http.post<any>(this.apiUrl + 'question/', searchParams, this.headers).pipe();
+      return this.http.post<any>(this.apiUrl + 'questions/', searchParams, this.headers).pipe();
     }
 }

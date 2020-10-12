@@ -81,7 +81,6 @@ export class QuestionComponent implements OnInit {
     this.FormData.fromdate = this.datepipe.transform(this.FormData.fromdate, 'dd/MM/yyyy');
     this.FormData.todate = this.datepipe.transform(this.FormData.todate, 'dd/MM/yyyy');
     this.apiService.getQuestions(this.FormData).subscribe(message => {
-      console.log(message);
       if (message.status !== 400) {
         this.toastr.success(message.message, 'Data');
         this.obtainedData = message.data;
@@ -92,7 +91,6 @@ export class QuestionComponent implements OnInit {
     }, error => {
        if (error.status === 429) {
         this.toastr.error(error.error.message + ' Try after sometime', 'Too Many Requests!');
-        alert( );
       }
     });
   }
