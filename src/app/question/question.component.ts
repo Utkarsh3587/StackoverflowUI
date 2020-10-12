@@ -3,6 +3,8 @@ import { ApiService } from 'src/app/api.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
@@ -12,28 +14,46 @@ export class QuestionComponent implements OnInit {
 
   sort = ['activity', 'votes', 'creation', 'relevance'];
   order = ['ascending', 'descending'];
+  accepted = [null, 'True', 'False'];
+  closed = [null, 'True', 'False'];
+  migrated = [null, 'True', 'False'];
+  notice = [null, 'True', 'False'];
+  wiki = [null, 'True', 'False'];
   includedTagList = [];
   excludedTagList = [];
   obtainedData = null;
   FormData = {
       tagged: [],
       nottagged: [],
-      intitle: '',
+      title: '',
       fromdate: null,
       todate: null,
       sort: '',
       order: '',
-      number_of_results: null,
       max: null,
       min: null,
+      page: 1,
+      pagesize: 10,
+      q: null,
+      body: null,
+      answers: null,
+      accepted: null,
+      closed: null,
+      migrated: null,
+      notice: null,
+      user: null,
+      url: null,
+      views: null,
+      wiki: null
+
   };
 
   constructor(private apiService: ApiService, public datepipe: DatePipe,
-              public router: Router) { }
+              public router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.FormData.number_of_results = 10;
-    this.FormData.sort = 'votes';
+    this.FormData.pagesize = 10;
+    this.FormData.sort = 'activity';
     this.FormData.order = 'ascending';
   }
 
@@ -55,20 +75,24 @@ export class QuestionComponent implements OnInit {
   }
 
   submitFormData(): void {
+    this.FormData.tagged = this.includedTagList;
+    this.FormData.nottagged = this.excludedTagList;
+    console.log(this.includedTagList, this.excludedTagList);
     this.FormData.fromdate = this.datepipe.transform(this.FormData.fromdate, 'dd/MM/yyyy');
     this.FormData.todate = this.datepipe.transform(this.FormData.todate, 'dd/MM/yyyy');
     this.apiService.getQuestions(this.FormData).subscribe(message => {
       console.log(message);
       if (message.status !== 400) {
-        alert(message.message);
+        this.toastr.success(message.message, 'Data');
         this.obtainedData = message.data;
         console.log(this.obtainedData);
       } else {
-        alert('Sorry something went wrong');
+        this.toastr.error('Sorry something went wrong', 'Error!');
       }
     }, error => {
        if (error.status === 429) {
-        alert(error.error.message + ' Try after sometime' );
+        this.toastr.error(error.error.message + ' Try after sometime', 'Too Many Requests!');
+        alert( );
       }
     });
   }
