@@ -1,5 +1,12 @@
 # StackoverflowUi
 
+Angular Application over StackOverflowAPI for searching questions in Stack Overflow (ref: https://api.stackexchange.com/docs/advanced-search)
+
+- Pagination
+- Toastr Messages
+- Search Stackoverflow Questions
+- Minimal third party plugins
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.6.
 
 ## Development server
