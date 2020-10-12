@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +22,7 @@ import { QuestionComponent } from './question/question.component';
     ToastrModule.forRoot(),
     HttpClientModule,
     BrowserModule,
+    InfiniteScrollModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule
