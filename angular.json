@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "stackoverflow-ui"
+    }
+  },
+  "defaultProject": "stackoverflow-ui",
+  "cli": {
+    "analytics": "3d42fe38-6275-40f8-a20b-2ecbe49f7128"
+  }
 }
